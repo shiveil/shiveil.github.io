@@ -4,187 +4,115 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>shiveil — Independent Resource Pack Developer</title>
-<meta name="description" content="shiveil — Independent developer crafting aesthetic, performance-driven resource packs and manifest mods for the Minecraft Java, Bedrock, and MCPE ecosystems." />
+<meta name="description" content=\"shiveil — Independent developer crafting aesthetic, performance-driven resource packs and manifest mods for the Minecraft Java, Bedrock, and MCPE ecosystems.\" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #000000;
-    --ink: #ffffff;
-    --ink-dim: #cccccc;
-    --ink-muted: #666666;
-    --accent: #a855f7; /* Violet highlight from your text */
-    --link-blue: #0055ff; /* Blue color for interactive text links in your screenshot */
+  :root{
+    --bg:#07060b;
+    --bg-2:#0b0912;
+    --ink:#e9e7f2;
+    --ink-dim:#a19bb8;
+    --ink-muted:#6b6683;
+    --violet:#a855f7;
+    --violet-2:#c084fc;
+    --violet-deep:#7c3aed;
+    --violet-glow:rgba(168,85,247,.55);
+    --glass:rgba(255,255,255,.04);
+    --glass-strong:rgba(255,255,255,.06);
+    --stroke:rgba(255,255,255,.08);
+    --stroke-strong:rgba(192,132,252,.28);
+    --radius:18px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-  
-  .wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  body{min-height:100vh;position:relative;isolation:isolate}
 
-  /* Dev / Action Bar indicator from top of screenshot */
-  .action-bar { font-family: monospace; color: var(--ink-dim); font-size: 11px; margin-bottom: 20px; opacity: 0.8; }
+  /* Ambient background – deep space with soft violet auroras */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(124,58,237,.22), transparent 60%),
+      radial-gradient(900px 600px at 100% 10%, rgba(168,85,247,.16), transparent 60%),
+      radial-gradient(700px 500px at 50% 110%, rgba(139,92,246,.14), transparent 60%),
+      linear-gradient(180deg,#07060b 0%,#08070d 40%,#06050a 100%);
+  }
+  /* Grain */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.4  0 0 0 0 0.9  0 0 0 0.08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Layout */
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 24px 96px}
 
   /* NAV */
-  .nav { margin-bottom: 40px; }
-  .brand { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px; margin-bottom: 8px; }
-  .brand small { color: var(--ink-muted); }
-  .nav ul { list-style: none; display: flex; gap: 16px; margin-top: 8px; }
-  .nav a { color: var(--link-blue); text-decoration: none; font-size: 13px; }
-  .nav a:hover { text-decoration: underline; }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 18px;border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    border:1px solid var(--stroke);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    box-shadow:0 10px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-family:'Space Grotesk',Inter,sans-serif;font-weight:600;letter-spacing:.02em}
+  .brand .mono{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+    background:linear-gradient(135deg,rgba(168,85,247,.35),rgba(124,58,237,.15));
+    border:1px solid var(--stroke-strong);
+    box-shadow:0 0 24px rgba(168,85,247,.25), inset 0 0 12px rgba(168,85,247,.15);
+    color:#fff;font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:15px}
+  .brand small{color:var(--ink-muted);font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-left:2px}
+  .nav ul{list-style:none;display:flex;gap:8px}
+  .nav a{
+    color:var(--ink-dim);text-decoration:none;font-size:13.5px;font-weight:500;
+    padding:8px 14px;border-radius:999px;letter-spacing:.02em;
+    transition:color .25s ease,background .25s ease,box-shadow .25s ease;
+  }
+  .nav a:hover{color:#fff;background:rgba(168,85,247,.10);box-shadow:0 0 24px rgba(168,85,247,.12)}
+  @media (max-width:640px){ .nav ul{display:none} }
 
   /* HERO */
-  .hero { margin-bottom: 60px; }
-  .eyebrow { font-size: 12px; color: var(--ink-dim); display: block; margin-bottom: 12px; }
-  h1.title { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 16px; }
-  .lead { color: var(--ink-dim); font-size: 13.5px; line-height: 1.6; max-width: 65ch; }
-  .lead strong { color: var(--ink); font-weight: 600; }
+  .hero{
+    margin-top:56px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;
+  }
+  @media (max-width:900px){ .hero{grid-template-columns:1fr;gap:36px;margin-top:40px} }
 
-  .hero-cta { display: flex; gap: 24px; margin-top: 24px; }
-  .text-link { color: var(--link-blue); text-decoration: none; font-size: 13px; }
-  .text-link:hover { text-decoration: underline; }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:7px 12px;border-radius:999px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--violet-2);
+    background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.22);
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--violet-2);box-shadow:0 0 12px var(--violet-glow)}
 
-  /* SECTION HEAD */
-  .section-head { margin: 80px 0 24px; font-size: 13px; }
-  .section-head .num { color: var(--ink-muted); margin-bottom: 4px; }
-  .section-head h2 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-  .section-head p { color: var(--ink-dim); font-size: 13px; max-width: 60ch; }
+  h1.title{
+    font-family:'Space Grotesk',Inter,sans-serif;
+    font-weight:600;
+    font-size:clamp(38px,6.2vw,64px);
+    line-height:1.02;letter-spacing:-.02em;margin:22px 0 18px;
+  }
+  h1.title .accent{
+    background:linear-gradient(180deg,#f0e7ff 0%,#c084fc 60%,#7c3aed 120%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 40px rgba(168,85,247,.15);
+  }
+  .lead{color:var(--ink-dim);font-size:16px;line-height:1.7;max-width:56ch}
+  .lead strong{color:#efeaff;font-weight:500}
 
-  /* PACKS LIST (Sticking to your sleek list structure from the screenshot) */
-  .pack-list { display: flex; flex-direction: column; gap: 40px; margin-top: 32px; }
-  .pack-item { display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #111; padding-bottom: 32px; }
-  .pack-item:last-child { border-bottom: none; }
-  
-  .pack-meta-top { font-size: 11px; color: var(--ink-muted); }
-  .pack-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
-  .pack-platforms { font-size: 12px; color: var(--ink-dim); }
-  .pack-desc { color: var(--ink-dim); font-size: 13px; line-height: 1.6; max-width: 65ch; }
-  
-  .pack-foot { display: flex; align-items: center; gap: 24px; margin-top: 8px; font-size: 12px; }
-  .pack-specs { color: var(--ink-muted); }
-  .dl-link { color: var(--link-blue); text-decoration: none; }
-  .dl-link:hover { text-decoration: underline; }
-
-  /* FOOTER */
-  footer { margin-top: 100px; padding-top: 20px; border-top: 1px solid #111; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-muted); }
-  footer a { color: var(--link-blue); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
-</style>
-</head>
-<body>
-  <div class="wrap">
-
-    <div class="action-bar">Action: file_editor create /app/index.html --file-text "</div>
-
-    <nav class="nav">
-      <div class="brand">
-        <strong>s</strong><br>
-        shiveil <small>· dev</small>
-      </div>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#packs">Packs</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-
-    <section id="about" class="hero">
-      <span class="eyebrow">Independent Developer</span>
-      <h1 class="title">
-        Crafting liquid<br/>
-        resource packs<br/>
-        for Minecraft.
-      </h1>
-      <p class="lead">
-        <strong>shiveil</strong> — an independent developer designing aesthetic, performance-driven resource packs and manifest-level modifications across the <strong>Minecraft Java</strong>, <strong>Bedrock</strong>, and <strong>MCPE</strong> ecosystems. Minimal, sharp, and quietly futuristic.
-      </p>
-
-      <div class="hero-cta">
-        <a href="#packs" class="text-link">Explore Packs</a>
-        <a href="#contact" class="text-link">Get in touch</a>
-      </div>
-    </section>
-
-    <section id="packs">
-      <div class="section-head">
-        <div class="num">s<br>ID shiveil / 0x01<br>01 — Library</div>
-        <h2>Selected Packs</h2>
-        <p>A curated selection of resource packs — refined textures, custom shaders, and manifest-level tuning for a cleaner in-game feel.</p>
-      </div>
-
-      <div class="pack-list">
-
-        <article class="pack-item">
-          <div class="pack-meta-top">Cover · 16 : 10</div>
-          <h3 class="pack-title">Nebula Void 32×</h3>
-          <div class="pack-platforms">Java 1.20.x 1.21.x</div>
-          <p class="pack-desc">A dark-space palette with soft violet highlights. Rebuilt ores, refined foliage and subtly emissive block edges for a calmer, cinematic feel.</p>
-          <div class="pack-foot">
-            <span class="pack-specs">32× · 42 MB</span>
-            <a href="#" class="dl-link">Download</a>
-          </div>
-        </article>
-
-        <article class="pack-item">
-          <div class="pack-meta-top">Cover · 16 : 10</div>
-          <h3 class="pack-title">Quantum Glass 16×</h3>
-          <div class="pack-platforms">Java 1.8.9 1.19.x</div>
-          <p class="pack-desc">Ultra-clean transparent surfaces and neutral tones. Tuned for PvP clarity with reduced visual noise on foliage and terrain.</p>
-          <div class="pack-foot">
-            <span class="pack-specs">16× · 8 MB</span>
-            <a href="#" class="dl-link">Download</a>
-          </div>
-        </article>
-
-        <article class="pack-item">
-          <div class="pack-meta-top">Cover · 16 : 10</div>
-          <h3 class="pack-title">Aurora Bedrock 64×</h3>
-          <div class="pack-platforms">Bedrock 1.20.x MCPE</div>
-          <p class="pack-desc">Manifest-driven Bedrock pack with soft aurora skies, iridescent water and repainted UI. Optimised for mid-range mobile devices.</p>
-          <div class="pack-foot">
-            <span class="pack-specs">64× · 96 MB</span>
-            <a href="#" class="dl-link">Download</a>
-          </div>
-        </article>
-
-        <article class="pack-item">
-          <div class="pack-meta-top">Cover · 16 : 10</div>
-          <h3 class="pack-title">Obsidian Minima 16×</h3>
-          <div class="pack-platforms">Java 1.20.x</div>
-          <p class="pack-desc">A monochrome, near-black recolour of vanilla assets with restrained violet accents on rare blocks and enchantments.</p>
-          <div class="pack-foot">
-            <span class="pack-specs">16× · 6 MB</span>
-            <a href="#" class="dl-link">Download</a>
-          </div>
-        </article>
-
-        <article class="pack-item">
-          <div class="pack-meta-top">Cover · 16 : 10</div>
-          <h3 class="pack-title">Prism Manifest MCPE</h3>
-          <div class="pack-platforms">MCPE 1.19+ Manifest</div>
-          <p class="pack-desc">Manifest-level modifications: refined lighting curves, restyled HUD and prism-glass materials. Designed for pocket-edition clarity.</p>
-          <div class="pack-foot">
-            <span class="pack-specs">32× · 28 MB</span>
-            <a href="#" class="dl-link">Download</a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <footer id="contact">
-      <div>© <span id="year"></span> shiveil.</div>
-      <div style="display:flex; gap:12px;">
-        <a href="#">GitHub</a>
-        <a href="#">Discord</a>
-      </div>
-    </footer>
-
-  </div>
-
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-</body>
-</html>
+  .hero-cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:12px 18px;border-radius:12px;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:.02em;
+    transition:transform .2s ease,box-shadow .3s ease,background .25s ease,border-color .25s ease,color .25s ease;
+    border:1px solid var(--stroke);
+  }
+  .btn-primary{
+    color:#0a0714;
+    background:linear-gradient(180deg,#d8b4fe,#a855f7);
+    border-color:rgba(255,255,255,.18);
+    box-shadow:0 10px 30px rgba(168,85,247,.35), inset 0 1px
